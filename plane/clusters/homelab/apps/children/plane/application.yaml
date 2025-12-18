@@ -17,10 +17,54 @@ spec:
     helm:
        values: |
         ingress:
-          enabled: false
+          enabled: true
           ingressClass: "traefik"
-          appHost: "plane.homelab"
-          minioHost: "plane-minio.homelab"
+          classname: traefik
+
+            hosts:
+            - host: plane.homelab
+              paths:
+                - path: /
+                  pathType: Prefix
+                  service:
+                    name: plane-app-web
+                    port: 3000
+
+                - path: /god-mode
+                  pathType: Prefix
+                  service:
+                    name: plane-app-admin
+                    port: 3000
+
+                - path: /spaces
+                  pathType: Prefix
+                  service:
+                    name: plane-app-space
+                    port: 3000
+
+                - path: /live
+                  pathType: Prefix
+                  service:
+                    name: plane-app-live
+                    port: 3000
+
+                - path: /api
+                  pathType: Prefix
+                  service:
+                    name: plane-app-api
+                    port: 8000
+
+                - path: /auth
+                  pathType: Prefix
+                  service:
+                    name: plane-app-api
+                    port: 8000
+
+                - path: /uploads
+                  pathType: Prefix
+                  service:
+                    name: plane-app-minio
+                    port: 9000
 
         postgres:
           storageClass: "local-path"
