@@ -86,6 +86,7 @@ spec:
     syncOptions:
       - Replace=true
       - PruneLast=true
+      - ApplyOutOfSyncOnly=true
 
     ignoreDifferences:
       - group: batch
