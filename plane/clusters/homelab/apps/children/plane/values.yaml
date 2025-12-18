@@ -3,6 +3,7 @@ planeVersion: "v1.4.1"
 ingress:
   enabled: true
   ingressClass: "traefik"
+  ingressClassName: "traefik"
   appHost: "plane.homelab"
   minioHost: "plane-minio.homelab"
 
