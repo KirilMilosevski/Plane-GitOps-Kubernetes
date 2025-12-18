@@ -39,3 +39,13 @@ spec:
       prune: true
       selfHeal: true
 
+    syncOptions:
+      - Replace=true
+      - PruneLast=true
+
+    ignoreDifferences:
+      - group: batch
+        kind: Job
+        jqPathExpressions:
+          - .spec.template
+
