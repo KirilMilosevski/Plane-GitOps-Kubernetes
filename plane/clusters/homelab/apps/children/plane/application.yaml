@@ -5,6 +5,11 @@ metadata:
   namespace: argocd
 spec:
   project: default
+  ignoreDifferences:
+    - group: batch
+      kind: job
+      jsonPointers:
+        - /spec/template
   source:
     repoURL: https://helm.plane.so/
     chart: plane-ce
