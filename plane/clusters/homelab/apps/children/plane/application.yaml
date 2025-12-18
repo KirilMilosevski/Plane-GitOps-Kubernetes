@@ -17,7 +17,7 @@ spec:
     helm:
        values: |
         ingress:
-          enabled: true
+          enabled: false
           ingressClass: "traefik"
           appHost: "plane.homelab"
           minioHost: "plane-minio.homelab"
