@@ -15,7 +15,7 @@ spec:
         values: |
           ingress:
             enabled: false
-            appHost: "plane.homelab"
+            appHost: "plane.kiril.shop"
             minioHost: ""
             ingressClass: ""
 
@@ -24,8 +24,13 @@ spec:
           # as env vars on the API pod.
         
           env:
-            cors_allowed_origins: "http://plane.homelab"
-            web_url: "http://plane.homelab"
+            cors_allowed_origins: "http://plane.kiril.shop"
+            web_url: "http://plane.kiril.shop"
+          
+            EMAIL_ENABLED: "false"
+            ENABLE_EMAIL_PASSWORD_LOGIN: "true"
+            ENABLE_MAGIC_LINK_LOGIN: "false"
+            ENABLE_EMAIL_VERIFICATION: "false"
 
           postgres:
             storageClass: local-path
