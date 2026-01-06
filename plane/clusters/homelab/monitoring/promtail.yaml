@@ -12,7 +12,7 @@ spec:
     helm:
       values: |
         config:
-          # ✅ FULL OVERRIDE (this prevents the chart's default "scrape everything" config)
+          # FULL OVERRIDE so we don't inherit the chart's default "scrape everything"
           file: |
             server:
               http_listen_port: 3101
@@ -25,14 +25,12 @@ spec:
               - url: http://loki.monitoring.svc:3100/loki/api/v1/push
 
             scrape_configs:
-              - job_name: kubernetes-pods-limited
+              - job_name: kubernetes-pods-one-namespace
                 kubernetes_sd_configs:
                   - role: pod
                     namespaces:
                       names:
-                        - plane
-                        - student-api
-                        - argocd
+                        - plane   # <--- CHANGE THIS to the ONE namespace you want
 
                 pipeline_stages:
                   - cri: {}
@@ -58,8 +56,6 @@ spec:
                     separator: /
                     target_label: __path__
                     replacement: /var/log/pods/*$1/*.log
-
-        # keep chart defaults for mounts/daemonset unless you changed them elsewhere
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
