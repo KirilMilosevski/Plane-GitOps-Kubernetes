@@ -1,0 +1,58 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-kube-prometheus-stack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: "61.*"
+    helm:
+      values: |
+        grafana:
+          enabled: true
+          adminPassword: "admin"
+          service:
+            type: ClusterIP
+
+      prometheus:
+        prometheusSpec:
+          retention: 7d
+          storageSpec:
+            volumeClaimTemplate:
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  requests:
+                    storage: 10Gi
+
+      alertManager:
+        alertManagerSpec:
+          storage:
+            VolumeClaimTemplate:
+              spec:
+                accessModes: ["ReadWriteOnce"]
+                resources:
+                  request:
+                    storage: 2Gi
+
+      kubeControllerManager:
+        enabled: true
+      kubeScheduler:
+        enabled: false
+      kubeEtcd:
+        enabled: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+
+  syncPolicy:
+    automated: 
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+
