@@ -19,20 +19,23 @@ spec:
             pipelineStages:
               - cri: {}
 
-            # HARD LIMIT: only keep logs from these namespaces
             extraRelabelConfigs:
               - action: keep
-                source_labels: ["__meta_kubernetes_namespace"]
-                regex: "plane|student-api|argocd|monitoring"
+                source_labels:
+                  - __meta_kubernetes_namespace
+                regex: "plane|student-api|argocd"
 
-              # Also drop promtail itself (belt + suspenders)
               - action: drop
-                source_labels: ["__meta_kubernetes_pod_name"]
+                source_labels:
+                  - __meta_kubernetes_pod_name
                 regex: "promtail.*"
+
+        extraScrapeConfigs: []
 
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
+
   syncPolicy:
     automated:
       prune: true
