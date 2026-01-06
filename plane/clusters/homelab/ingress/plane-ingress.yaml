@@ -5,6 +5,12 @@ metadata:
   namespace: plane
 spec:
   ingressClassName: traefik
+
+  tls:
+    - hosts:
+       - plane.kiril.shop
+      secretName: kiril-shop-wildcard-tls
+
   rules:
     - host: plane.kiril.shop
       http:
