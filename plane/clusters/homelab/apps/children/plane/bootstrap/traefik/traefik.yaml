@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: treafik
+  name: bootstrap-traefik
   namespace: argocd
 spec:
   project: default
@@ -15,7 +15,7 @@ spec:
         providers:
           kubernetesIngress:
             publishedService:
-              enagled: true
+              enabled: true
         service:
           type: LoadBalancer
         ports:
@@ -24,12 +24,13 @@ spec:
               default: true
         deployment:
           replicas: 1
-    destination:
-      server: https://kubernetes.default.svc
-      namespace: kube-system
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-      syncOptions:
-        - CreateNamespace = true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+

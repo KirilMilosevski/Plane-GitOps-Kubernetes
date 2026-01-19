@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: treafik-crd
-  namespaces: argocd
+  name: bootstrap-traefik-crds
+  namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://traefik.github.io/charts
-    chart: treafik-crds
+    chart: traefik-crds
     targetRevision: 1.13.1
     helm:
-      releaseName: traefik-crd
+      releaseName: traefik-crds
   destination:
     server: https://kubernetes.default.svc
     namespace: kube-system
@@ -20,3 +20,4 @@ spec:
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+
