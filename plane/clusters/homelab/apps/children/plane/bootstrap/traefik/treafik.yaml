@@ -1,0 +1,35 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: treafik
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://traefik.github.io/charts
+    chart: traefik
+    targetRevision: 38.0.2
+    helm:
+      releaseName: traefik
+      values: |
+        providers:
+          kubernetesIngress:
+            publishedService:
+              enagled: true
+        service:
+          type: LoadBalancer
+        ports:
+          metrics:
+            expose:
+              default: true
+        deployment:
+          replicas: 1
+    destination:
+      server: https://kubernetes.default.svc
+      namespace: kube-system
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+      syncOptions:
+        - CreateNamespace = true
