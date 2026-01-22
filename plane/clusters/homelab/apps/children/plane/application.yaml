@@ -19,9 +19,6 @@ spec:
             minioHost: ""
             ingressClass: ""
 
-          # ✅ Plane public URL + CORS (these are app config, not ingress routing)
-          # The exact nesting depends on the chart, but these keys must end up
-          # as env vars on the API pod.
         
           env:
             cors_allowed_origins: "http://plane.kiril.shop"
